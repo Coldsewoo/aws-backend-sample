@@ -100,7 +100,8 @@ app.put('/message/:_id', async (req, res) => {
   try {
     const id = req.params._id
     const message = req.body.message
-    const update = await Message.findOneAndUpdate({ _id: id }, { message: message })
+    const username = req.body.username
+    const update = await Message.findOneAndUpdate({ _id: id }, { message: message, username: username })
     const doc = await Message.findOne({ _id: id })
     res.status(200).json(doc)
   } catch (err) {
