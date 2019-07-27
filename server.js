@@ -47,8 +47,8 @@ else redisClient = new Redis()
 const { RateLimiterRedis } = require('rate-limiter-flexible')
 const rateLimiterRedis = new RateLimiterRedis({
   storeClient: redisClient,
-  points: 20,
-  duration: 1,
+  points: 100,
+  duration: 1800,
 })
 
 const rateLimiterMiddleware = (req, res, next) => {
@@ -58,9 +58,11 @@ const rateLimiterMiddleware = (req, res, next) => {
       next()
     })
     .catch(function(err) {
-      res.json(util.successFalse(err, 'TooManyRequests'))
+      console.log(err)
+      res.status(500).json("TooManyRequestShort")
     })
 }
+
 app.use(rateLimiterMiddleware)
 
 app.use(express.urlencoded({ extended: false }))
